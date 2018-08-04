@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/colorAccent"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextColor="@color/colorPrimaryDark" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tablayout"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            app:layout_anchorGravity="bottom|right|end"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/plus"
+            android:paddingBottom="15dp"
+            android:padding="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            app:fabSize="normal" />
+    </RelativeLayout>
+  <!--<RelativeLayout-->
+      <!--android:layout_width="match_parent"-->
+      <!--android:layout_height="match_parent"-->
+      <!--app:layout_constraintBottom_toBottomOf="parent"-->
+      <!--app:layout_constraintRight_toRightOf="parent"-->
+      <!--app:layout_anchor="@id/viewpager"-->
+      <!--&gt;-->
+
+
+  <!--</RelativeLayout>-->
+
+  <!--&lt;!&ndash;</RelativeLayout>&ndash;&gt;-->
+
+
+</android.support.constraint.ConstraintLayout>
