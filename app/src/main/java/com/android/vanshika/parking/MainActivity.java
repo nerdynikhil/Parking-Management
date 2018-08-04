@@ -28,25 +28,28 @@ Fragment twoWheelFragment;
     setContentView(R.layout.activity_main);
     viewPager = (ViewPager) findViewById(R.id.viewpager);
     viewPager.setOffscreenPageLimit(3);
-    setupViewPager(viewPager);
+    ViewPagerAdapter adapter=new ViewPagerAdapter(this,getSupportFragmentManager());
+    viewPager.setAdapter(adapter);
+    //setupViewPager(viewPager);
     tabLayout = (TabLayout) findViewById(R.id.tablayout);
     tabLayout.setupWithViewPager(viewPager);
 
-    viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-      @Override
-      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-      }
-
-      @Override public void onPageSelected(int position) {
-        viewPager.setCurrentItem(position,false);
-      }
-
-      @Override public void onPageScrollStateChanged(int state) {
-
-      }
-    });
-    setupViewPager(viewPager);
+    //viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+    //  @Override
+    //  public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    //
+    //  }
+    //
+    //  @Override public void onPageSelected(int position) {
+    //    viewPager.setCurrentItem(position,false);
+    //
+    //  }
+    //
+    //  @Override public void onPageScrollStateChanged(int state) {
+    //
+    //  }
+    //});
+    //setupViewPager(viewPager);
 
     try
     {
@@ -66,7 +69,6 @@ Fragment twoWheelFragment;
       }
     });
   }
-
 
   private void setupTabIcons() {
     for(int i=0;i<tabTitle.length;i++)
@@ -96,15 +98,15 @@ Fragment twoWheelFragment;
     return view;
   }
 
-  private void setupViewPager(ViewPager viewPager)
-  {
-    ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-    twoWheelFragment=new Fragment();
-    fourWheelFragment=new Fragment();
-    recievedFragment=new Fragment();
-    adapter.addFragment(twoWheelFragment,"Bike");
-    adapter.addFragment(fourWheelFragment,"Car");
-    adapter.addFragment(recievedFragment,"Recieved");
-    viewPager.setAdapter(adapter);
-  }
+  //private void setupViewPager(ViewPager viewPager)
+  //{
+  //  ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+  //  twoWheelFragment=new Fragment();
+  //  fourWheelFragment=new Fragment();
+  //  recievedFragment=new Fragment();
+  //  adapter.addFragment(twoWheelFragment,"Bike");
+  //  adapter.addFragment(fourWheelFragment,"Car");
+  //  adapter.addFragment(recievedFragment,"Recieved");
+  //  viewPager.setAdapter(adapter);
+  //}
 }

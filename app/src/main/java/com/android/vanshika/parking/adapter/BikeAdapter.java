@@ -1,5 +1,6 @@
 package com.android.vanshika.parking.adapter;
 
+import android.annotation.SuppressLint;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import com.android.vanshika.parking.R;
 import com.android.vanshika.parking.Vehicle;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class BikeAdapter extends RecyclerView.Adapter <BikeAdapter.ViewHolder>{
@@ -26,7 +30,7 @@ public class BikeAdapter extends RecyclerView.Adapter <BikeAdapter.ViewHolder>{
   @Override public void onBindViewHolder(final ViewHolder holder, int position) {
     Vehicle vehicle=bikesParked.get(position);
       holder.vehicleNumber.setText(vehicle.getNumber());
-      holder.amount.setText(vehicle.getPayment());
+      holder.amount.setText(Integer.toString(vehicle.getPayment()));
       holder.time.setText(vehicle.getTime());
       holder.button.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {

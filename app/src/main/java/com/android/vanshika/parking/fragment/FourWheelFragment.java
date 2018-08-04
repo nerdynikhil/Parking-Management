@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.android.vanshika.parking.R;
 
-public class FourWheelFragment extends Fragment {
+public class FourWheelFragment extends android.support.v4.app.Fragment {
   public FourWheelFragment() {
     //requiredEmtyConstructor
   }

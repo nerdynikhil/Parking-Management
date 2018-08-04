@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.android.vanshika.parking.R;
 
-public class RecivedFragment extends Fragment {
+public class RecivedFragment extends android.support.v4.app.Fragment {
   public RecivedFragment() {
     //required empty constructor
   }

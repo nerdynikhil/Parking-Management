@@ -3,6 +3,8 @@
   <string-array name="vehicle_type">
     <item>2Wheeler's</item>
     <item>4Wheeler's</item>
-    <item>Recieved</item>
   </string-array>
+  <string name="bike">Bike</string>
+  <string name="car">Car</string>
+  <string name="recieved">Recieved</string>
 </resources>

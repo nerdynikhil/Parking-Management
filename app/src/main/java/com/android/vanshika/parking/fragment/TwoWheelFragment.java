@@ -1,7 +1,10 @@
 package com.android.vanshika.parking.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.os.Bundle;
+//import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,11 +17,14 @@ import android.widget.FrameLayout;
 import com.android.vanshika.parking.R;
 import com.android.vanshika.parking.Vehicle;
 import com.android.vanshika.parking.adapter.BikeAdapter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Calendar;
 
-public class TwoWheelFragment extends Fragment{
+public class TwoWheelFragment extends android.support.v4.app.Fragment {
 BikeAdapter adapter;
 RecyclerView recyclerView;
 List<Vehicle> bikesParked;
@@ -29,21 +35,30 @@ List<Vehicle> bikesParked;
     @Nullable @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
         Bundle savedInstanceState) {
-      recyclerView=getActivity().findViewById(R.id.recyclerView1);
-      bikesParked=new ArrayList<>();
-      addData();
-        adapter=new BikeAdapter(bikesParked);
-        RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity().getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setAdapter(adapter);
+
       return inflater.inflate(R.layout.fragment_two, container, false);
     }
 
+  @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    recyclerView=getActivity().findViewById(R.id.recyclerView1);
+    bikesParked=new ArrayList<>();
+    addData();
+    adapter=new BikeAdapter(bikesParked);
+    RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity().getApplicationContext());
+    recyclerView.setLayoutManager(mLayoutManager);
+    recyclerView.setAdapter(adapter);
+    super.onViewCreated(view, savedInstanceState);
+  }
+
   private void addData() {
-      bikesParked.add(new Vehicle("4567",Calendar.getInstance().getTime().toString(),20));
-    bikesParked.add(new Vehicle("4547",Calendar.getInstance().getTime().toString(),40));
-    bikesParked.add(new Vehicle("bvkev",Calendar.getInstance().getTime().toString(),20));
-    bikesParked.add(new Vehicle("456fiwe7",Calendar.getInstance().getTime().toString(),40));
+    long mil = System.currentTimeMillis();
+    Date date = new Date(mil);
+    @SuppressLint("SimpleDateFormat") DateFormat formatter = new SimpleDateFormat("hh:mm a");
+    String hms = formatter.format(date);
+      bikesParked.add(new Vehicle("4567",hms,20));
+    bikesParked.add(new Vehicle("4547",hms,40));
+    bikesParked.add(new Vehicle("bvkev",hms,20));
+    bikesParked.add(new Vehicle("456fiwe7",hms,40));
   }
 
   @Override public void onCreate(@Nullable Bundle savedInstanceState) {
