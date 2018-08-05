@@ -27,6 +27,7 @@
         android:text="Amount to be paid"
         />
     <EditText
+        android:id="@+id/enteredAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Amount in rupees"
@@ -38,10 +39,17 @@
         android:text="Vehicle Number"
         />
     <EditText
+        android:id="@+id/enterNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAllCaps="true"
+
         android:hint="Enter the 4-digit vehicle number"
+        />
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
         />
   </LinearLayout>
 

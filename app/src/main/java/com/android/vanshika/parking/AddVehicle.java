@@ -1,34 +1,82 @@
 package com.android.vanshika.parking;
 
-import android.app.ActionBar;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
+import com.android.vanshika.parking.framework.APIService;
+import com.android.vanshika.parking.framework.ApiUtils;
+import com.android.vanshika.parking.framework.Post;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Objects;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddVehicle extends AppCompatActivity {
-
+  private APIService mAPIService;
+  private Button saveButton;
+  private Object spinner;
+  private EditText editTextNumber,editTextAmount;
+  ArrayAdapter<CharSequence> adapter;
   @RequiresApi(api = Build.VERSION_CODES.KITKAT) @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_add_vehicle);
-    //android.support.v7.widget.Toolbar toolbar =
-    //    (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar);
-    ////toolbar.setTitle("Customer Info");
-    //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    //getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+    editTextAmount=findViewById(R.id.enteredAmount);
+    editTextNumber=findViewById(R.id.enterNumber);
+
+    mAPIService = ApiUtils.getAPIService();
+
+    saveButton=findViewById(R.id.saveButton);
+    saveButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View view) {
+        sendPost(spinner,Integer.parseInt(editTextAmount.getText().toString()),editTextNumber.getText().toString());
+      }
+    });
+
     Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
     Spinner spinner = (Spinner) findViewById(R.id.spinner);
-    ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+    adapter = ArrayAdapter.createFromResource(this,
         R.array.vehicle_type, android.R.layout.simple_spinner_item);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
   }
+
+  private void sendPost(Object spinner, int amount, String vehicleNumber) {
+    long mil = System.currentTimeMillis();
+    Date date = new Date(mil);
+    @SuppressLint("SimpleDateFormat") DateFormat formatter = new SimpleDateFormat("hh:mm a");
+    String hms = formatter.format(date);
+    mAPIService.savePost((String) spinner,vehicleNumber,amount,hms).enqueue(new Callback<Post>() {
+      @Override public void onResponse(Call<Post> call, Response<Post> response) {
+        if (response.isSuccessful()){
+          Toast.makeText(AddVehicle.this, "Added Successfully", Toast.LENGTH_SHORT).show();
+          Log.v("addvehicleactivity",response.message());
+        }
+      }
+
+      @Override public void onFailure(Call<Post> call, Throwable t) {
+        Toast.makeText(AddVehicle.this, "Can't add, please try again", Toast.LENGTH_SHORT).show();
+      }
+    });
+  }
+
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
@@ -38,5 +86,18 @@ public class AddVehicle extends AppCompatActivity {
         return true;
     }
     return super.onOptionsItemSelected(item);
+  }
+  public class SpinnerActivity extends Activity implements AdapterView.OnItemSelectedListener {
+
+
+    public void onItemSelected(AdapterView<?> parent, View view,
+        int pos, long id) {
+      // An item was selected. You can retrieve the selected item using
+      spinner= parent.getItemAtPosition(pos);
+    }
+
+    public void onNothingSelected(AdapterView<?> parent) {
+      // Another interface callback
+    }
   }
 }
