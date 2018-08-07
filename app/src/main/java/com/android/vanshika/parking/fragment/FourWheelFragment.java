@@ -23,6 +23,7 @@ public class FourWheelFragment extends android.support.v4.app.Fragment {
   BikeAdapter adapter;
   RecyclerView recyclerView;
   List<Vehicle> carsParked;
+  public static int itemCount;
   public FourWheelFragment() {
     //requiredEmtyConstructor
   }
@@ -47,6 +48,7 @@ public class FourWheelFragment extends android.support.v4.app.Fragment {
     RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity().getApplicationContext());
     recyclerView.setLayoutManager(mLayoutManager);
     recyclerView.setAdapter(adapter);
+    itemCount=carsParked.size();
     super.onViewCreated(view, savedInstanceState);
   }
 

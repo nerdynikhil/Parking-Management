@@ -30,7 +30,7 @@ import retrofit2.Response;
 public class AddVehicle extends AppCompatActivity {
   private APIService mAPIService;
   private Button saveButton;
-  private Object spinner;
+  private String spinnerText;
   private EditText editTextNumber,editTextAmount;
   ArrayAdapter<CharSequence> adapter;
   @RequiresApi(api = Build.VERSION_CODES.KITKAT) @Override
@@ -43,22 +43,38 @@ public class AddVehicle extends AppCompatActivity {
 
     mAPIService = ApiUtils.getAPIService();
 
+    Spinner spinner = (Spinner) findViewById(R.id.spinner);
+    spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+      @Override public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        spinnerText=adapterView.getSelectedItem().toString();
+        if (spinnerText.equals("2Wheeler"))
+          editTextAmount.setText("20");
+        else if(spinnerText.equals("4Wheeler"))
+          editTextAmount.setText("50");
+      }
+
+
+      @Override public void onNothingSelected(AdapterView<?> adapterView) {
+            editTextAmount.setText("");
+      }
+    });
+
     saveButton=findViewById(R.id.saveButton);
     saveButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        sendPost(spinner,Integer.parseInt(editTextAmount.getText().toString()),editTextNumber.getText().toString());
+        sendPost(spinnerText,Integer.parseInt(editTextAmount.getText().toString()),editTextNumber.getText().toString());
       }
     });
 
     Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-    Spinner spinner = (Spinner) findViewById(R.id.spinner);
+    //Spinner spinner = (Spinner) findViewById(R.id.spinner);
     adapter = ArrayAdapter.createFromResource(this,
         R.array.vehicle_type, android.R.layout.simple_spinner_item);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
   }
 
-  private void sendPost(Object spinner, int amount, String vehicleNumber) {
+  private void sendPost(String spinner, int amount, String vehicleNumber) {
     long mil = System.currentTimeMillis();
     Date date = new Date(mil);
     @SuppressLint("SimpleDateFormat") DateFormat formatter = new SimpleDateFormat("hh:mm a");
@@ -73,6 +89,7 @@ public class AddVehicle extends AppCompatActivity {
 
       @Override public void onFailure(Call<Post> call, Throwable t) {
         Toast.makeText(AddVehicle.this, "Can't add, please try again", Toast.LENGTH_SHORT).show();
+        Log.v("addvehicleactivity",t.getMessage());
       }
     });
   }
@@ -93,7 +110,12 @@ public class AddVehicle extends AppCompatActivity {
     public void onItemSelected(AdapterView<?> parent, View view,
         int pos, long id) {
       // An item was selected. You can retrieve the selected item using
-      spinner= parent.getItemAtPosition(pos);
+      //spinner= parent.getItemAtPosition(pos);
+      spinnerText=parent.getSelectedItem().toString();
+      if (spinnerText=="2Wheeler's")
+        editTextAmount.setText("20");
+      else if(spinnerText=="4Wheeler's")
+        editTextAmount.setText("50");
     }
 
     public void onNothingSelected(AdapterView<?> parent) {

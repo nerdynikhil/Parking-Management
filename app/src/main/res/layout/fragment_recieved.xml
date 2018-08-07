@@ -2,11 +2,49 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    >
+  <RelativeLayout
+      android:id="@+id/heading"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="10dp"
+      >
+
+  <TextView
+      android:id="@+id/collectionText"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:text="Total collection by now:"
+      />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="total"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/collectionText"
+        android:text="Total vehicles accomodated:"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/collectionText"
+        android:text="total accomodation"
+        />
+  </RelativeLayout>
+
   <android.support.v7.widget.RecyclerView
       android:id="@+id/recyclerView3"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      app:layout_constraintTop_toBottomOf="@+id/heading"
       />
 
 </android.support.constraint.ConstraintLayout>

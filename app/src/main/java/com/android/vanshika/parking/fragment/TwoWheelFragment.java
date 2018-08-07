@@ -28,6 +28,7 @@ public class TwoWheelFragment extends android.support.v4.app.Fragment {
 BikeAdapter adapter;
 RecyclerView recyclerView;
 List<Vehicle> bikesParked;
+public static int itemCount;
     public TwoWheelFragment() {
       //required empty public constructor
     }
@@ -47,6 +48,7 @@ List<Vehicle> bikesParked;
     RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity().getApplicationContext());
     recyclerView.setLayoutManager(mLayoutManager);
     recyclerView.setAdapter(adapter);
+    itemCount=bikesParked.size();
     super.onViewCreated(view, savedInstanceState);
   }
 

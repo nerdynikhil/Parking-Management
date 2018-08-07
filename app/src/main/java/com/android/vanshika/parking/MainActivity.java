@@ -50,6 +50,8 @@ Fragment twoWheelFragment;
     //  }
     //});
     //setupViewPager(viewPager);
+    unreadCount[0]=TwoWheelFragment.itemCount;
+    unreadCount[1]=FourWheelFragment.itemCount;
 
     try
     {
