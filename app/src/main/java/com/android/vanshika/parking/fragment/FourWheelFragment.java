@@ -43,11 +43,11 @@ public class FourWheelFragment extends android.support.v4.app.Fragment {
   @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
     recyclerView=getActivity().findViewById(R.id.recyclerView2);
     carsParked=new ArrayList<>();
-    addData();
-    adapter=new BikeAdapter(carsParked);
-    RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity().getApplicationContext());
-    recyclerView.setLayoutManager(mLayoutManager);
-    recyclerView.setAdapter(adapter);
+    //addData();
+    //adapter=new BikeAdapter(carsParked);
+    //RecyclerView.LayoutManager mLayoutManager=new LinearLayoutManager(getActivity().getApplicationContext());
+    //recyclerView.setLayoutManager(mLayoutManager);
+    //recyclerView.setAdapter(adapter);
     itemCount=carsParked.size();
     super.onViewCreated(view, savedInstanceState);
   }

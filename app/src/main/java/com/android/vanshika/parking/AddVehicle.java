@@ -2,6 +2,8 @@ package com.android.vanshika.parking;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.arch.persistence.room.Room;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NavUtils;
@@ -16,6 +18,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import com.android.vanshika.parking.Room.AppDatabase;
+import com.android.vanshika.parking.Room.User;
 import com.android.vanshika.parking.framework.APIService;
 import com.android.vanshika.parking.framework.ApiUtils;
 import com.android.vanshika.parking.framework.Post;
@@ -43,6 +47,8 @@ public class AddVehicle extends AppCompatActivity {
 
     mAPIService = ApiUtils.getAPIService();
 
+
+
     Spinner spinner = (Spinner) findViewById(R.id.spinner);
     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -62,6 +68,7 @@ public class AddVehicle extends AppCompatActivity {
     saveButton=findViewById(R.id.saveButton);
     saveButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
+        addToRoom();
         sendPost(spinnerText,Integer.parseInt(editTextAmount.getText().toString()),editTextNumber.getText().toString());
       }
     });
@@ -72,6 +79,22 @@ public class AddVehicle extends AppCompatActivity {
         R.array.vehicle_type, android.R.layout.simple_spinner_item);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
+  }
+
+  private void addToRoom() {
+    final AppDatabase
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"users")
+        .build();
+    long mil = System.currentTimeMillis();
+    Date date = new Date(mil);
+    @SuppressLint("SimpleDateFormat") DateFormat formatter = new SimpleDateFormat("hh:mm a");
+    String hms = formatter.format(date);
+    final User ParkingList=new User(spinnerText,editTextNumber.getText().toString(),editTextAmount.getText().toString(),hms);
+    AsyncTask.execute(new Runnable() {
+      @Override public void run() {
+          db.userDao().InsertAll(ParkingList);
+      }
+    });
   }
 
   private void sendPost(String spinner, int amount, String vehicleNumber) {
