@@ -25,14 +25,15 @@ public class BikeAdapter extends RecyclerView.Adapter <BikeAdapter.ViewHolder>{
     return new ViewHolder(itemView);
   }
 
-  @Override public void onBindViewHolder(final ViewHolder holder, int position) {
+  @Override public void onBindViewHolder(ViewHolder holder, int position) {
     User vehicle=bikesParked.get(position);
       holder.vehicleNumber.setText(vehicle.getNumber());
       holder.amount.setText(vehicle.getAmount());
       holder.time.setText(vehicle.getTimeIn());
+      final ViewHolder finalHolder=holder;
       holder.button.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {
-            holder.cardViewObject.removeView(view);
+            finalHolder.cardViewObject.removeView(view);
         }
       });
   }

@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import com.android.vanshika.parking.Room.AppDatabase;
 import com.android.vanshika.parking.Room.User;
+import com.android.vanshika.parking.Room.myuser;
 import com.android.vanshika.parking.framework.APIService;
 import com.android.vanshika.parking.framework.ApiUtils;
 import com.android.vanshika.parking.framework.Post;
@@ -49,7 +50,7 @@ public class AddVehicle extends AppCompatActivity {
 
 
 
-    Spinner spinner = (Spinner) findViewById(R.id.spinner);
+    final Spinner spinner = (Spinner) findViewById(R.id.spinner);
     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         spinnerText=adapterView.getSelectedItem().toString();
@@ -68,7 +69,10 @@ public class AddVehicle extends AppCompatActivity {
     saveButton=findViewById(R.id.saveButton);
     saveButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        addToRoom();
+        if (spinnerText.equals("2Wheeler"))
+        addToRoomBike();
+        else if(spinnerText.equals("4Wheeler"))
+          addToRoomCar();
         sendPost(spinnerText,Integer.parseInt(editTextAmount.getText().toString()),editTextNumber.getText().toString());
       }
     });
@@ -81,7 +85,23 @@ public class AddVehicle extends AppCompatActivity {
     spinner.setAdapter(adapter);
   }
 
-  private void addToRoom() {
+  private void addToRoomCar() {
+    final AppDatabase
+        db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"cars")
+        .build();
+    long mil = System.currentTimeMillis();
+    Date date = new Date(mil);
+    @SuppressLint("SimpleDateFormat") DateFormat formatter = new SimpleDateFormat("hh:mm a");
+    String hms = formatter.format(date);
+    final myuser ParkingList=new myuser(spinnerText,editTextNumber.getText().toString(),editTextAmount.getText().toString(),hms);
+    AsyncTask.execute(new Runnable() {
+      @Override public void run() {
+        db.userDao().InsertAllCars(ParkingList);
+      }
+    });
+  }
+
+  private void addToRoomBike() {
     final AppDatabase
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"users")
         .build();

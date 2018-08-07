@@ -13,4 +13,11 @@ public interface UserDao {
   @Insert
   void InsertAll(User... userList);
 
+
+  @Query("SELECT * FROM cars")
+  List<myuser> getAllCars();
+
+  @Insert
+  void InsertAllCars(myuser... userList);
+
 }
