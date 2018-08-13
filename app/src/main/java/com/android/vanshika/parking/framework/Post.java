@@ -63,11 +63,11 @@ public class Post {
 
   @Override public String toString() {
     return "Post{" +
-        "type='" + type + '\'' +
+        "vehicleType='" + type + '\'' +
         ", number='" + number + '\'' +
         ", amount=" + amount +
         ", timeIn=" + timeIn +
-        ", id=" + id +
         '}';
   }
+
 }

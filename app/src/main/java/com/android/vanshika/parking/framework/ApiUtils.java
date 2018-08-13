@@ -2,8 +2,7 @@ package com.android.vanshika.parking.framework;
 
 public class ApiUtils {
   private ApiUtils() {}
-
-  public static final String BASE_URL = "http://jsonplaceholder.typicode.com/";
+  public static final String BASE_URL = "http://192.168.43.145:8000/";
 
   public static APIService getAPIService() {
 

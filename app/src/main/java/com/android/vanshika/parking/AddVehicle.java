@@ -24,6 +24,7 @@ import com.android.vanshika.parking.Room.myuser;
 import com.android.vanshika.parking.framework.APIService;
 import com.android.vanshika.parking.framework.ApiUtils;
 import com.android.vanshika.parking.framework.Post;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,8 +48,6 @@ public class AddVehicle extends AppCompatActivity {
     editTextNumber=findViewById(R.id.enterNumber);
 
     mAPIService = ApiUtils.getAPIService();
-
-
 
     final Spinner spinner = (Spinner) findViewById(R.id.spinner);
     spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -85,6 +84,28 @@ public class AddVehicle extends AppCompatActivity {
     spinner.setAdapter(adapter);
   }
 
+  private void sendPost(String spinner, int amount, String vehicleNumber) {
+    long mil = System.currentTimeMillis();
+    Date date = new Date(mil);
+    @SuppressLint("SimpleDateFormat") DateFormat formatter = new SimpleDateFormat("hh:mm a");
+    String hms = formatter.format(date);
+    mAPIService.savePost((String) spinner,vehicleNumber,amount,hms).enqueue(new Callback<Post>() {
+      @Override public void onResponse(Call<Post> call, Response<Post> response) {
+        Log.v("message1",response.body()+" errror body "+response.errorBody()+" "+response.code()+" "+response.raw()+" "+response.headers());
+        if (response.isSuccessful()){
+          Toast.makeText(AddVehicle.this, "Added Successfully", Toast.LENGTH_SHORT).show();
+          Log.v("addvehicleactivity",response.message());
+        }
+      }
+
+      @Override public void onFailure(Call<Post> call, Throwable t) {
+        Toast.makeText(AddVehicle.this, "Can't add, please try again", Toast.LENGTH_SHORT).show();
+        Log.v("addvehicleactivity",t.getMessage());
+      }
+    });
+
+  }
+
   private void addToRoomCar() {
     final AppDatabase
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"cars")
@@ -113,26 +134,6 @@ public class AddVehicle extends AppCompatActivity {
     AsyncTask.execute(new Runnable() {
       @Override public void run() {
           db.userDao().InsertAll(ParkingList);
-      }
-    });
-  }
-
-  private void sendPost(String spinner, int amount, String vehicleNumber) {
-    long mil = System.currentTimeMillis();
-    Date date = new Date(mil);
-    @SuppressLint("SimpleDateFormat") DateFormat formatter = new SimpleDateFormat("hh:mm a");
-    String hms = formatter.format(date);
-    mAPIService.savePost((String) spinner,vehicleNumber,amount,hms).enqueue(new Callback<Post>() {
-      @Override public void onResponse(Call<Post> call, Response<Post> response) {
-        if (response.isSuccessful()){
-          Toast.makeText(AddVehicle.this, "Added Successfully", Toast.LENGTH_SHORT).show();
-          Log.v("addvehicleactivity",response.message());
-        }
-      }
-
-      @Override public void onFailure(Call<Post> call, Throwable t) {
-        Toast.makeText(AddVehicle.this, "Can't add, please try again", Toast.LENGTH_SHORT).show();
-        Log.v("addvehicleactivity",t.getMessage());
       }
     });
   }
