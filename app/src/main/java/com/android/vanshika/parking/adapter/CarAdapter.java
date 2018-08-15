@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.android.vanshika.parking.AddVehicle;
 import com.android.vanshika.parking.R;
 import com.android.vanshika.parking.Room.AppDatabase;
 import com.android.vanshika.parking.Room.User;
@@ -65,24 +67,15 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
         mAPIService.savePost((String) vehicle.getVehicleType(), vehicle.getNumber(),
             vehicle.getAmount(), vehicle.getTimeIn(), hms).enqueue(new Callback<Post>() {
           @Override public void onResponse(Call<Post> call, Response<Post> response) {
-            Log.v("message1", response.body()
-                + " errror body "
-                + response.errorBody()
-                + " "
-                + response.code()
-                + " "
-                + response.raw()
-                + " "
-                + response.headers());
             if (response.isSuccessful()) {
-              removeItem(position,vehicle.getNumber());
+              removeItem(position,vehicle.getNumber(),vehicle.getAmount());
               Log.v("addvehicleactivity", response.message());
             }
           }
 
           @Override public void onFailure(Call<Post> call, Throwable t) {
             Toast.makeText(context, "Can't add, please try again", Toast.LENGTH_SHORT).show();
-            removeItem(position,vehicle.getNumber());
+            removeItem(position,vehicle.getNumber(),vehicle.getAmount());
             Log.v("addvehicleactivity", t.getMessage());
           }
         });
@@ -90,7 +83,7 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
     });
       }
 
-  private void removeItem(int position, String number) {
+  @SuppressLint("CommitPrefEdits") private void removeItem(int position, String number,int amount) {
     final int pos=position;
     final String num=number;
     AsyncTask.execute(new Runnable() {
@@ -102,8 +95,11 @@ public class CarAdapter extends RecyclerView.Adapter<CarAdapter.ViewHolder> {
       }
     });
     Toast.makeText(context, "Added Successfully", Toast.LENGTH_SHORT).show();
+    int que= PreferenceManager.getDefaultSharedPreferences(context).getInt("CarNumber",0);
+    PreferenceManager.getDefaultSharedPreferences(context).edit().putInt("CarNumber",que+1).commit();
     notifyDataSetChanged();
   }
+
 
   @Override public int getItemCount() {
     return carsParked.size();

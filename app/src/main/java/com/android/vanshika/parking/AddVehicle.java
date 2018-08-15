@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -68,10 +69,15 @@ public class AddVehicle extends AppCompatActivity {
     saveButton=findViewById(R.id.saveButton);
     saveButton.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
-        if (spinnerText.equals("2Wheeler"))
-        addToRoomBike();
-        else if(spinnerText.equals("4Wheeler"))
+        if (spinnerText.equals("2Wheeler")){
+          addToRoomBike();
+          updateAmountBikes();
+        }
+
+        else if(spinnerText.equals("4Wheeler")){
           addToRoomCar();
+          updateAmountCars();
+        }
         //sendPost(spinnerText,Integer.parseInt(editTextAmount.getText().toString()),editTextNumber.getText().toString());
       }
     });
@@ -82,6 +88,16 @@ public class AddVehicle extends AppCompatActivity {
         R.array.vehicle_type, android.R.layout.simple_spinner_item);
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     spinner.setAdapter(adapter);
+  }
+
+  private void updateAmountCars() {
+    int price= PreferenceManager.getDefaultSharedPreferences(AddVehicle.this).getInt("CarPay",0);
+    PreferenceManager.getDefaultSharedPreferences(AddVehicle.this).edit().putInt("CarPay",Integer.parseInt(editTextAmount.getText().toString())+price).commit();
+  }
+
+  private void updateAmountBikes() {
+    int price= PreferenceManager.getDefaultSharedPreferences(AddVehicle.this).getInt("BikePay",0);
+    PreferenceManager.getDefaultSharedPreferences(AddVehicle.this).edit().putInt("BikePay",Integer.parseInt(editTextAmount.getText().toString())+price).commit();
   }
 
   private void sendPost(String spinner, int amount, String vehicleNumber) {

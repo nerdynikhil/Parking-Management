@@ -20,6 +20,7 @@
       android:text="Total collection by now:"
       />
     <TextView
+        android:id="@+id/totalSum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -33,6 +34,7 @@
         android:text="Total 2Wheeler's accomodated:"
         />
     <TextView
+        android:id="@+id/numOfBikes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -46,6 +48,7 @@
         android:text="Total 4Wheeler's accomodated"
         />
     <TextView
+        android:id="@+id/numOfCars"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"

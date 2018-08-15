@@ -3,7 +3,9 @@ package com.android.vanshika.parking.adapter;
 import android.annotation.SuppressLint;
 import android.arch.persistence.room.Room;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,11 +31,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.PUT;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class BikeAdapter extends RecyclerView.Adapter <BikeAdapter.ViewHolder>{
   private APIService mAPIService;
   List<User> bikesParked;
   Context context;
   AppDatabase db;
+  private SharedPreferences mPreferences;
+  private String sharedPrefFile = "com.android.vanshika.parking";
   public BikeAdapter(Context context,List<User> bikesParked) {
     this.bikesParked=bikesParked;
     this.context=context;
@@ -63,24 +69,15 @@ public class BikeAdapter extends RecyclerView.Adapter <BikeAdapter.ViewHolder>{
           mAPIService.savePost((String) vehicle.getVehicleType(), vehicle.getNumber(),
               vehicle.getAmount(), vehicle.getTimeIn(), hms).enqueue(new Callback<Post>() {
             @Override public void onResponse(Call<Post> call, Response<Post> response) {
-              Log.v("message1", response.body()
-                  + " errror body "
-                  + response.errorBody()
-                  + " "
-                  + response.code()
-                  + " "
-                  + response.raw()
-                  + " "
-                  + response.headers());
               if (response.isSuccessful()) {
-                removeItem(position,vehicle.getNumber());
+                removeItem(position,vehicle.getNumber(),vehicle.getAmount());
                 Log.v("addvehicleactivity", response.message());
               }
             }
 
             @Override public void onFailure(Call<Post> call, Throwable t) {
               Toast.makeText(context, "Can't add, please try again", Toast.LENGTH_SHORT).show();
-              removeItem(position,vehicle.getNumber());
+              removeItem(position,vehicle.getNumber(),vehicle.getAmount());
               Log.v("addvehicleactivity", t.getMessage());
             }
           });
@@ -88,7 +85,7 @@ public class BikeAdapter extends RecyclerView.Adapter <BikeAdapter.ViewHolder>{
       });
   }
 
-  private void removeItem(int position, String number) {
+  @SuppressLint("CommitPrefEdits") private void removeItem(int position, String number,int amount) {
     final int pos=position;
     final String num=number;
     AsyncTask.execute(new Runnable() {
@@ -100,6 +97,8 @@ public class BikeAdapter extends RecyclerView.Adapter <BikeAdapter.ViewHolder>{
       }
     });
     Toast.makeText(context, "Added Successfully", Toast.LENGTH_SHORT).show();
+    int que= PreferenceManager.getDefaultSharedPreferences(context).getInt("BikeNumber",0);
+    PreferenceManager.getDefaultSharedPreferences(context).edit().putInt("BikeNumber",que+1).commit();
     notifyDataSetChanged();
   }
 
