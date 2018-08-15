@@ -16,7 +16,9 @@ public class Post {
   @SerializedName("timeIn")
   @Expose
   private String timeIn;
-
+  @SerializedName("timeOut")
+  @Expose
+  private String timeOut;
   public Integer getId() {
     return id;
   }
@@ -61,12 +63,21 @@ public class Post {
     this.timeIn = timeIn;
   }
 
+  public String getTimeOut() {
+    return timeOut;
+  }
+
+  public void setTimeOut(String timeOut) {
+    this.timeOut = timeOut;
+  }
+
   @Override public String toString() {
     return "Post{" +
         "vehicleType='" + type + '\'' +
         ", number='" + number + '\'' +
         ", amount=" + amount +
         ", timeIn=" + timeIn +
+        ", timeOut=" + timeOut +
         '}';
   }
 

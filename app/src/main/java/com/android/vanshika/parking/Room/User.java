@@ -15,12 +15,12 @@ public class User {
   String number;
 
   @ColumnInfo(name = "amount")
-  String amount;
+  int amount;
 
   @ColumnInfo(name = "timeIn")
   String timeIn;
 
-  public User(String vehicleType, String number, String amount, String timeIn) {
+  public User(String vehicleType, String number, int amount, String timeIn) {
     //this.id = id;
     this.vehicleType = vehicleType;
     this.number = number;
@@ -52,11 +52,11 @@ public class User {
     this.number = number;
   }
 
-  public String getAmount() {
+  public int getAmount() {
     return amount;
   }
 
-  public void setAmount(String amount) {
+  public void setAmount(int amount) {
     this.amount = amount;
   }
 

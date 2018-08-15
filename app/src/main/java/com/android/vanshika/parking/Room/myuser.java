@@ -16,12 +16,12 @@ public class myuser {
   String number;
 
   @ColumnInfo(name = "amount")
-  String amount;
+  int amount;
 
   @ColumnInfo(name = "timeIn")
   String timeIn;
 
-  public myuser(String vehicleType, String number, String amount, String timeIn) {
+  public myuser(String vehicleType, String number, int amount, String timeIn) {
     this.vehicleType = vehicleType;
     this.number = number;
     this.amount = amount;
@@ -44,11 +44,11 @@ public class myuser {
     this.number = number;
   }
 
-  public String getAmount() {
+  public int getAmount() {
     return amount;
   }
 
-  public void setAmount(String amount) {
+  public void setAmount(int amount) {
     this.amount = amount;
   }
 

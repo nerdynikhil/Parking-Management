@@ -72,7 +72,7 @@ public class AddVehicle extends AppCompatActivity {
         addToRoomBike();
         else if(spinnerText.equals("4Wheeler"))
           addToRoomCar();
-        sendPost(spinnerText,Integer.parseInt(editTextAmount.getText().toString()),editTextNumber.getText().toString());
+        //sendPost(spinnerText,Integer.parseInt(editTextAmount.getText().toString()),editTextNumber.getText().toString());
       }
     });
 
@@ -89,7 +89,7 @@ public class AddVehicle extends AppCompatActivity {
     Date date = new Date(mil);
     @SuppressLint("SimpleDateFormat") DateFormat formatter = new SimpleDateFormat("hh:mm a");
     String hms = formatter.format(date);
-    mAPIService.savePost((String) spinner,vehicleNumber,amount,hms).enqueue(new Callback<Post>() {
+    mAPIService.savePost((String) spinner,vehicleNumber,amount,hms,"").enqueue(new Callback<Post>() {
       @Override public void onResponse(Call<Post> call, Response<Post> response) {
         Log.v("message1",response.body()+" errror body "+response.errorBody()+" "+response.code()+" "+response.raw()+" "+response.headers());
         if (response.isSuccessful()){
@@ -114,7 +114,7 @@ public class AddVehicle extends AppCompatActivity {
     Date date = new Date(mil);
     @SuppressLint("SimpleDateFormat") DateFormat formatter = new SimpleDateFormat("hh:mm a");
     String hms = formatter.format(date);
-    final myuser ParkingList=new myuser(spinnerText,editTextNumber.getText().toString(),editTextAmount.getText().toString(),hms);
+    final myuser ParkingList=new myuser(spinnerText,editTextNumber.getText().toString(),Integer.parseInt(editTextAmount.getText().toString()),hms);
     AsyncTask.execute(new Runnable() {
       @Override public void run() {
         db.userDao().InsertAllCars(ParkingList);
@@ -130,7 +130,7 @@ public class AddVehicle extends AppCompatActivity {
     Date date = new Date(mil);
     @SuppressLint("SimpleDateFormat") DateFormat formatter = new SimpleDateFormat("hh:mm a");
     String hms = formatter.format(date);
-    final User ParkingList=new User(spinnerText,editTextNumber.getText().toString(),editTextAmount.getText().toString(),hms);
+    final User ParkingList=new User(spinnerText,editTextNumber.getText().toString(),Integer.parseInt(editTextAmount.getText().toString()),hms);
     AsyncTask.execute(new Runnable() {
       @Override public void run() {
           db.userDao().InsertAll(ParkingList);

@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 2,
-    "identityHash": "4a60cecfd47aa6d9a6c5b0d062664404",
+    "identityHash": "83ddca37fe920fdf04a62358c3658688",
     "entities": [
       {
         "tableName": "users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `vehicleType` TEXT, `number` TEXT, `amount` TEXT, `timeIn` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `vehicleType` TEXT, `number` TEXT, `amount` INTEGER NOT NULL, `timeIn` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -29,8 +29,8 @@
           {
             "fieldPath": "amount",
             "columnName": "amount",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "timeIn",
@@ -50,7 +50,7 @@
       },
       {
         "tableName": "cars",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `vehicleType` TEXT, `number` TEXT, `amount` TEXT, `timeIn` TEXT)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `vehicleType` TEXT, `number` TEXT, `amount` INTEGER NOT NULL, `timeIn` TEXT)",
         "fields": [
           {
             "fieldPath": "id",
@@ -73,8 +73,8 @@
           {
             "fieldPath": "amount",
             "columnName": "amount",
-            "affinity": "TEXT",
-            "notNull": false
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "timeIn",
@@ -95,7 +95,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4a60cecfd47aa6d9a6c5b0d062664404\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"83ddca37fe920fdf04a62358c3658688\")"
     ]
   }
 }

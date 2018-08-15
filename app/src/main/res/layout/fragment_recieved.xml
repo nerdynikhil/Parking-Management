@@ -26,17 +26,31 @@
         android:text="total"
         />
     <TextView
+        android:id="@+id/acco2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/collectionText"
-        android:text="Total vehicles accomodated:"
+        android:text="Total 2Wheeler's accomodated:"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/collectionText"
-        android:text="total accomodation"
+        android:text="total bikes"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/acco2"
+        android:text="Total 4Wheeler's accomodated"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/acco2"
+        android:text="total cars"
         />
   </RelativeLayout>
 
