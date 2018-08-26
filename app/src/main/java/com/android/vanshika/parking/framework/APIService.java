@@ -12,24 +12,27 @@ import retrofit2.http.Path;
 
 public interface APIService {
   //@Headers("Accept: application/json")
-  @POST("/post/new/")
-  @FormUrlEncoded
-  Call<Post> savePost(@Field("vehicleType") String type,
-      @Field("number") String number,
-      @Field("amount") int amount,
-      @Field("timeIn") String timeIn,
-      @Field("timeOut") String timeOut);
+  //try{
+    @POST("/post/new")
+    @FormUrlEncoded
+    Call<Post> savePost(@Field("number") String number,
+        @Field("date") String date,
+        @Field("type") String type,
+    @Field("amount") int amount
+    );
+  //}
+
 
   @GET(".")
   Call <Post> getPost();
 
   @FormUrlEncoded
-  @PUT("/post/new/")
-  Call<PUT> updatePost(@Field("vehicleType") String type,
+  @POST("/post/add")
+  Call<Post> addExistingPost(
       @Field("number") String number,
-      @Field("amount") int amount,
-      @Field("timeIn") String timeIn,
-      @Field("timeOut") String timeOut);
+      @Field("date") String date,
+      @Field("amount") int amount
+      );
 
   //@PUT("/post/{number}/")
   //Call<PUT> updatePost(@Path("number") String number, @Body String timeOut);

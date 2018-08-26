@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import com.android.vanshika.parking.fragment.FourWheelFragment;
@@ -66,7 +68,7 @@ Fragment twoWheelFragment;
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        Intent intent=new Intent(MainActivity.this,AddVehicle.class);
+        Intent intent=new Intent(MainActivity.this,AddExistingVehicle.class);
         startActivity(intent);
       }
     });
@@ -99,7 +101,21 @@ Fragment twoWheelFragment;
 
     return view;
   }
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    // Inflate the menu; this adds items to the action bar if it is present.
+    getMenuInflater().inflate(R.menu.menu_main, menu);
+    return true;
+  }
 
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    int id=item.getItemId();
+    if (id==R.id.add){
+      Intent intent=new Intent(MainActivity.this,AddVehicle.class);
+      startActivity(intent);
+    }
+    return super.onOptionsItemSelected(item);
+  }
   //private void setupViewPager(ViewPager viewPager)
   //{
   //  ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());

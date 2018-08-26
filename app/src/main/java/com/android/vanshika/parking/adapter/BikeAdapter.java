@@ -24,6 +24,7 @@ import com.android.vanshika.parking.framework.ApiUtils;
 import com.android.vanshika.parking.framework.Post;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import retrofit2.Call;
@@ -52,22 +53,25 @@ public class BikeAdapter extends RecyclerView.Adapter <BikeAdapter.ViewHolder>{
     return new ViewHolder(itemView);
   }
 
-  @Override public void onBindViewHolder(ViewHolder holder,  int position1) {
+  @Override public void onBindViewHolder(ViewHolder holder1,  int position1) {
     long mil = System.currentTimeMillis();
     Date date = new Date(mil);
     @SuppressLint("SimpleDateFormat") DateFormat formatter = new SimpleDateFormat("hh:mm a");
     final String hms = formatter.format(date);
+    Date c = Calendar.getInstance().getTime();
+    SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+    final String formattedDate = df.format(c);
     mAPIService = ApiUtils.getAPIService();
     final int position=position1;
+    final ViewHolder holder=holder1;
     final User vehicle=bikesParked.get(position1);
-      holder.vehicleNumber.setText(vehicle.getNumber());
-      holder.amount.setText(String.valueOf(vehicle.getAmount()));
-      holder.time.setText(vehicle.getTimeIn());
-      final ViewHolder finalHolder=holder;
-      holder.button.setOnClickListener(new View.OnClickListener() {
+      holder1.vehicleNumber.setText(vehicle.getNumber());
+      holder1.amount.setText(String.valueOf(vehicle.getAmount()));
+      holder1.time.setText(vehicle.getTimeIn());
+      //final ViewHolder finalHolder=holder;
+      holder1.button.setOnClickListener(new View.OnClickListener() {
         @Override public void onClick(View view) {
-          mAPIService.savePost((String) vehicle.getVehicleType(), vehicle.getNumber(),
-              vehicle.getAmount(), vehicle.getTimeIn(), hms).enqueue(new Callback<Post>() {
+          mAPIService.savePost(holder.vehicleNumber.getText().toString(),formattedDate,vehicle.getVehicleType(),Integer.parseInt(holder.amount.getText().toString())).enqueue(new Callback<Post>() {
             @Override public void onResponse(Call<Post> call, Response<Post> response) {
               if (response.isSuccessful()) {
                 removeItem(position,vehicle.getNumber(),vehicle.getAmount());

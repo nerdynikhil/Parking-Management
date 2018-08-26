@@ -6,7 +6,6 @@ import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,7 +24,6 @@ import com.android.vanshika.parking.Room.myuser;
 import com.android.vanshika.parking.framework.APIService;
 import com.android.vanshika.parking.framework.ApiUtils;
 import com.android.vanshika.parking.framework.Post;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,17 +33,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AddVehicle extends AppCompatActivity {
+public class AddExistingVehicle extends AppCompatActivity {
   private APIService mAPIService;
   private Button saveButton;
   private String spinnerText;
   private EditText editTextNumber,editTextAmount;
   ArrayAdapter<CharSequence> adapter;
-  @RequiresApi(api = Build.VERSION_CODES.KITKAT) @Override
+  @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_add_vehicle);
-
+    setContentView(R.layout.activity_add_existing_vehicle);
     editTextAmount=findViewById(R.id.enteredAmount);
     editTextNumber=findViewById(R.id.enterNumber);
 
@@ -63,7 +60,7 @@ public class AddVehicle extends AppCompatActivity {
 
 
       @Override public void onNothingSelected(AdapterView<?> adapterView) {
-            editTextAmount.setText("");
+        editTextAmount.setText("");
       }
     });
 
@@ -85,7 +82,9 @@ public class AddVehicle extends AppCompatActivity {
       }
     });
 
-    Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+      Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+    }
     //Spinner spinner = (Spinner) findViewById(R.id.spinner);
     adapter = ArrayAdapter.createFromResource(this,
         R.array.vehicle_type, android.R.layout.simple_spinner_item);
@@ -93,6 +92,15 @@ public class AddVehicle extends AppCompatActivity {
     spinner.setAdapter(adapter);
   }
 
+  private void updateAmountCars() {
+    int price= PreferenceManager.getDefaultSharedPreferences(AddExistingVehicle.this).getInt("CarPay",0);
+    PreferenceManager.getDefaultSharedPreferences(AddExistingVehicle.this).edit().putInt("CarPay",Integer.parseInt(editTextAmount.getText().toString())+price).commit();
+  }
+
+  private void updateAmountBikes() {
+    int price= PreferenceManager.getDefaultSharedPreferences(AddExistingVehicle.this).getInt("BikePay",0);
+    PreferenceManager.getDefaultSharedPreferences(AddExistingVehicle.this).edit().putInt("BikePay",Integer.parseInt(editTextAmount.getText().toString())+price).commit();
+  }
   private void addToDjango() {
     long mil = System.currentTimeMillis();
     Date date = new Date(mil);
@@ -101,7 +109,7 @@ public class AddVehicle extends AppCompatActivity {
     Date c = Calendar.getInstance().getTime();
     SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
     final String formattedDate = df.format(c);
-    mAPIService.savePost(editTextNumber.getText().toString(),formattedDate,spinnerText,Integer.parseInt(editTextAmount.getText().toString())).enqueue(new Callback<Post>() {
+    mAPIService.addExistingPost(editTextNumber.getText().toString(),formattedDate,Integer.parseInt(editTextAmount.getText().toString())).enqueue(new Callback<Post>() {
       @Override public void onResponse(Call<Post> call, Response<Post> response) {
         if (response.isSuccessful()) {
           Log.v("addvehicleactivity", response.message());
@@ -109,24 +117,13 @@ public class AddVehicle extends AppCompatActivity {
       }
 
       @Override public void onFailure(Call<Post> call, Throwable t) {
-        Toast.makeText(AddVehicle.this, "Can't add, please try again", Toast.LENGTH_SHORT).show();
+        Toast.makeText(AddExistingVehicle.this, "Can't add, please try again", Toast.LENGTH_SHORT).show();
 
         Log.v("addvehicleactivity", t.getMessage());
       }
     });
   }
-
-  private void updateAmountCars() {
-    int price= PreferenceManager.getDefaultSharedPreferences(AddVehicle.this).getInt("CarPay",0);
-    PreferenceManager.getDefaultSharedPreferences(AddVehicle.this).edit().putInt("CarPay",Integer.parseInt(editTextAmount.getText().toString())+price).commit();
-  }
-
-  private void updateAmountBikes() {
-    int price= PreferenceManager.getDefaultSharedPreferences(AddVehicle.this).getInt("BikePay",0);
-    PreferenceManager.getDefaultSharedPreferences(AddVehicle.this).edit().putInt("BikePay",Integer.parseInt(editTextAmount.getText().toString())+price).commit();
-  }
-
-  private void sendPost(String spinner, int amount, String vehicleNumber) {
+  /*private void sendPost(String spinner, int amount, String vehicleNumber) {
     long mil = System.currentTimeMillis();
     Date date = new Date(mil);
     @SuppressLint("SimpleDateFormat") DateFormat formatter = new SimpleDateFormat("hh:mm a");
@@ -140,19 +137,19 @@ public class AddVehicle extends AppCompatActivity {
       @Override public void onResponse(Call<Post> call, Response<Post> response) {
         Log.v("message1",response.body()+" errror body "+response.errorBody()+" "+response.code()+" "+response.raw()+" "+response.headers());
         if (response.isSuccessful()){
-          Toast.makeText(AddVehicle.this, "Added Successfully", Toast.LENGTH_SHORT).show();
+          Toast.makeText(AddExistingVehicle.this, "Added Successfully", Toast.LENGTH_SHORT).show();
           Log.v("addvehicleactivity",response.message());
         }
       }
 
       @Override public void onFailure(Call<Post> call, Throwable t) {
-        Toast.makeText(AddVehicle.this, "Can't add, please try again", Toast.LENGTH_SHORT).show();
+        Toast.makeText(AddExistingVehicle.this, "Can't add, please try again", Toast.LENGTH_SHORT).show();
         Log.v("addvehicleactivity",t.getMessage());
       }
     });
 
   }
-
+*/
   private void addToRoomCar() {
     final AppDatabase
         db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class,"cars")
@@ -180,7 +177,7 @@ public class AddVehicle extends AppCompatActivity {
     final User ParkingList=new User(spinnerText,editTextNumber.getText().toString(),Integer.parseInt(editTextAmount.getText().toString()),hms);
     AsyncTask.execute(new Runnable() {
       @Override public void run() {
-          db.userDao().InsertAll(ParkingList);
+        db.userDao().InsertAll(ParkingList);
       }
     });
   }
@@ -213,4 +210,5 @@ public class AddVehicle extends AppCompatActivity {
       // Another interface callback
     }
   }
-}
+  }
+
