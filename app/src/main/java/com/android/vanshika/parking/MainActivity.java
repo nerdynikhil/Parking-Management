@@ -8,20 +8,30 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import com.android.vanshika.parking.adapter.RecievedAdapter;
 import com.android.vanshika.parking.fragment.FourWheelFragment;
 import com.android.vanshika.parking.fragment.RecivedFragment;
 import com.android.vanshika.parking.fragment.TwoWheelFragment;
+import com.android.vanshika.parking.framework.APIService;
+import com.android.vanshika.parking.framework.ApiUtils;
+import java.util.List;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 ViewPager viewPager;
 TabLayout tabLayout;
+  private APIService mAPIService;
 Fragment twoWheelFragment;
   Fragment fourWheelFragment;
   Fragment recievedFragment;
+  RecievedAdapter listAdapter;
   String[] tabTitle={"Bike","Car","Recieved"};
   int[] unreadCount={0,5,0};
   @Override
@@ -30,7 +40,7 @@ Fragment twoWheelFragment;
     setContentView(R.layout.activity_main);
     viewPager = (ViewPager) findViewById(R.id.viewpager);
     viewPager.setOffscreenPageLimit(3);
-    ViewPagerAdapter adapter=new ViewPagerAdapter(this,getSupportFragmentManager());
+    final ViewPagerAdapter adapter=new ViewPagerAdapter(this,getSupportFragmentManager());
     viewPager.setAdapter(adapter);
     //setupViewPager(viewPager);
     tabLayout = (TabLayout) findViewById(R.id.tablayout);
@@ -63,11 +73,27 @@ Fragment twoWheelFragment;
     {
       e.printStackTrace();
     }
-    
+    mAPIService = ApiUtils.getAPIService();
     FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
     fab.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
+        mAPIService.getPost().enqueue(new Callback<List<Global>>() {
+          @Override
+          public void onResponse(Call<List<Global>> call, Response<List<Global>> response) {
+            Log.v("global1",String.valueOf(call.isExecuted()));
+            Log.v("global1",String.valueOf(response.isSuccessful()));
+            Log.v("global1",String.valueOf(response.errorBody())+" "+response.code()+" "+response.message());
+            //Log.v("global",response.body().toString());
+            listAdapter=new RecievedAdapter(getApplicationContext(),response.body());
+            adapter.notifyDataSetChanged();
+          }
+
+          @Override public void onFailure(Call<List<Global>> call, Throwable t) {
+            Log.v("global",String.valueOf(call.isExecuted()));
+            Log.v("global",t.getMessage()+t.getCause()+" "+t.getLocalizedMessage());
+          }
+        });
         Intent intent=new Intent(MainActivity.this,AddExistingVehicle.class);
         startActivity(intent);
       }

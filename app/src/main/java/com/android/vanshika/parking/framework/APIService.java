@@ -1,10 +1,13 @@
 package com.android.vanshika.parking.framework;
+import com.android.vanshika.parking.Global;
 import com.android.vanshika.parking.framework.Post;
+import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -22,9 +25,8 @@ public interface APIService {
     );
   //}
 
-
   @GET(".")
-  Call <Post> getPost();
+  Call <List<Global>> getPost();
 
   @FormUrlEncoded
   @POST("/post/add")
