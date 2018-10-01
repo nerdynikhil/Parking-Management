@@ -3,16 +3,23 @@ package com.android.vanshika.parking.fragment;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.android.vanshika.parking.Global;
 import com.android.vanshika.parking.R;
+import com.android.vanshika.parking.framework.APIService;
+
+import java.util.List;
 
 public class RecivedFragment extends android.support.v4.app.Fragment {
   TextView totalSum,queBike,queCar;
+  List<Global> existingVehicles;
   public RecivedFragment() {
     //required empty constructor
   }
@@ -40,5 +47,10 @@ public class RecivedFragment extends android.support.v4.app.Fragment {
     queBike.setText(String.valueOf(numBikes));
     queCar.setText(String.valueOf(numCars));
     return v;
+  }
+
+  @Override
+  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
   }
 }

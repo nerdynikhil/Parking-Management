@@ -6,6 +6,7 @@ import android.arch.persistence.room.Room;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,7 +38,7 @@ public class AddExistingVehicle extends AppCompatActivity {
   private APIService mAPIService;
   private Button saveButton;
   private String spinnerText;
-  private EditText editTextNumber,editTextAmount;
+  private TextInputEditText editTextNumber,editTextAmount;
   ArrayAdapter<CharSequence> adapter;
   @Override
   protected void onCreate(Bundle savedInstanceState) {

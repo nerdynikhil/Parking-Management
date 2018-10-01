@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Calls"
-        android:textColor="@drawable/tab_text_color_selector"
+        android:textColor="@color/colorAccent"
         android:textSize="@dimen/large_text" />
 
     <TextView
@@ -26,7 +26,7 @@
         android:background="@drawable/badge_background"
         android:gravity="center"
         android:text="99"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/colorAccent"
         android:textSize="@dimen/medium_text" />
 
   </LinearLayout>

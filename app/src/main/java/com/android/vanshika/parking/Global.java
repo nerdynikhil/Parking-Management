@@ -8,6 +8,18 @@ public class Global {
   @Expose
   String number;
 
+  @SerializedName("total")
+  @Expose
+  String total;
+
+  public String getTotal() {
+    return total;
+  }
+
+  public void setTotal(String total) {
+    this.total = total;
+  }
+
   public String getNumber() {
     return number;
   }
@@ -16,8 +28,8 @@ public class Global {
     this.number = number;
   }
 
-  public Global(String number) {
-
+  public Global(String number, String total) {
     this.number = number;
+    this.total = total;
   }
 }

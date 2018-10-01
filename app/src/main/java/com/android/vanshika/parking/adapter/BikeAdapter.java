@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.vanshika.parking.AddVehicle;
@@ -65,8 +66,8 @@ public class BikeAdapter extends RecyclerView.Adapter <BikeAdapter.ViewHolder>{
     final int position=position1;
     final ViewHolder holder=holder1;
     final User vehicle=bikesParked.get(position1);
-      holder1.vehicleNumber.setText(vehicle.getNumber());
-      holder1.amount.setText(String.valueOf(vehicle.getAmount()));
+      //holder1.vehicleNumber.setText(vehicle.getNumber());
+      holder1.amount.setText(String.valueOf(vehicle.getNumber()));
       holder1.time.setText(vehicle.getTimeIn());
       //final ViewHolder finalHolder=holder;
       holder1.button.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +112,8 @@ public class BikeAdapter extends RecyclerView.Adapter <BikeAdapter.ViewHolder>{
   }
 
   public class ViewHolder extends RecyclerView.ViewHolder {
-    TextView button,vehicleNumber,amount,time;
+    TextView vehicleNumber,amount,time;
+    ImageView button;
     CardView cardViewObject;
     public ViewHolder(View itemView) {
       super(itemView);

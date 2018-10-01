@@ -25,8 +25,12 @@ public interface APIService {
     );
   //}
 
-  @GET(".")
+  @GET("api/post_get/")
   Call <List<Global>> getPost();
+  /*@GET("api/v1/")
+    Call<SearchRestaurantResponse[]> getRestaurantsList(@Query("format") String format, @Query("location") String location,
+                                               @Query("rtype") String rtype);
+  * */
 
   @FormUrlEncoded
   @POST("/post/add")

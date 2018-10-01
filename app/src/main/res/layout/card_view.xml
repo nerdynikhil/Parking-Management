@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:padding="5dp"
     >
 <android.support.v7.widget.CardView
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
+    android:elevation="10dp"
     >
   <RelativeLayout
       android:layout_width="match_parent"
@@ -21,29 +21,48 @@
         android:id="@+id/vehicleNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Vehicle number"/>
+        android:text="Vehicle number:  "
+        android:textStyle="bold"
+        android:textColor="#CBE432"
+        android:textSize="20dp"/>
     <TextView
         android:id="@+id/amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/vehicleNumber"
+        android:layout_toRightOf="@+id/vehicleNumber"
         android:inputType="number"
-        android:text="Rs."
+        android:text="12345"
+        android:textColor="#CBE432"
+        android:textSize="20dp"
         />
-    <TextView
+    <ImageView
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="REMOVE"/>
+        android:paddingRight="15dp"
+        android:paddingTop="15dp"
+        android:src="@drawable/ic_delete_black_24dp"/>
+    <TextView
+        android:id="@+id/timeTag"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/button"
+        android:text="TimeIn:  "
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:textColor="#CBE432"/>
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/timeTag"
+        android:text="timeIn"
+        android:textSize="20dp"
         android:layout_below="@+id/button"
-        android:layout_alignParentRight="true"
-        android:text="TimeIn"/>
+        android:textColor="#CBE432"/>
   </RelativeLayout>
+
 </android.support.v7.widget.CardView>
 
 </LinearLayout>

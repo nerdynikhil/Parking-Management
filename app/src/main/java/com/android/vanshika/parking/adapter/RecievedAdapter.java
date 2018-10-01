@@ -28,6 +28,7 @@ public class RecievedAdapter extends RecyclerView.Adapter<RecievedAdapter.ViewHo
   @Override public void onBindViewHolder(ViewHolder holder, int position) {
     Global list=queue.get(position);
       holder.numberPlate.setText(list.getNumber());
+      holder.totalBill.setText(list.getTotal());
   }
 
   @Override public int getItemCount() {
